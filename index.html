@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RETRO ARCADE</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="arcade-container">
+        <!-- Main Menu -->
+        <div id="main-menu" class="screen active">
+            <h1 class="retro-title">
+                <span class="glitch" data-text="RETRO ARCADE">RETRO ARCADE</span>
+            </h1>
+            <div class="subtitle">SELECT YOUR GAME</div>
+            <div class="game-grid">
+                <div class="game-card" data-game="snake">
+                    <div class="game-icon">🐍</div>
+                    <div class="game-name">SNAKE</div>
+                    <div class="game-desc">Eat, grow, survive!</div>
+                </div>
+                <div class="game-card" data-game="breakout">
+                    <div class="game-icon">🧱</div>
+                    <div class="game-name">BREAKOUT</div>
+                    <div class="game-desc">Smash the bricks!</div>
+                </div>
+                <div class="game-card" data-game="spaceinvaders">
+                    <div class="game-icon">👾</div>
+                    <div class="game-name">SPACE INVADERS</div>
+                    <div class="game-desc">Defend Earth!</div>
+                </div>
+                <div class="game-card" data-game="tetris">
+                    <div class="game-icon">🟦</div>
+                    <div class="game-name">TETRIS</div>
+                    <div class="game-desc">Stack & clear lines!</div>
+                </div>
+                <div class="game-card" data-game="pong">
+                    <div class="game-icon">🏓</div>
+                    <div class="game-name">PONG</div>
+                    <div class="game-desc">Classic tennis!</div>
+                </div>
+                <div class="game-card" data-game="minesweeper">
+                    <div class="game-icon">💣</div>
+                    <div class="game-name">MINESWEEPER</div>
+                    <div class="game-desc">Find the mines!</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Game Screen -->
+        <div id="game-screen" class="screen">
+            <div class="game-header">
+                <button id="back-btn" class="retro-btn">← BACK</button>
+                <h2 id="game-title" class="game-title"></h2>
+                <div class="score-display">SCORE: <span id="score">0</span></div>
+            </div>
+            <canvas id="game-canvas"></canvas>
+            <div class="game-controls-info">
+                <span>Arrow Keys / WASD - Move</span>
+                <span>Space - Action</span>
+                <span>Enter - Start</span>
+            </div>
+            <div id="game-over" class="game-over-screen hidden">
+                <div class="game-over-content">
+                    <h2>GAME OVER</h2>
+                    <p>SCORE: <span id="final-score">0</span></p>
+                    <p class="high-score">HIGH SCORE: <span id="high-score">0</span></p>
+                    <button id="restart-btn" class="retro-btn">PLAY AGAIN</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- CRT Effect Overlay -->
+        <div id="crt-overlay"></div>
+    </div>
+
+    <script src="sound.js"></script>
+    <script src="core/improvements.js"></script>
+    <script src="games/snake.js"></script>
+    <script src="games/breakout.js"></script>
+    <script src="games/space-invaders.js"></script>
+    <script src="games/tetris.js"></script>
+    <script src="games/pong.js"></script>
+    <script src="games/minesweeper.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

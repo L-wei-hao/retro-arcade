@@ -1,0 +1,761 @@
+/**
+ * RETRO ARCADE - IMPROVEMENTS UI STYLES
+ * 
+ * Styles for: Settings Panel, Improved Game Over, Tutorial System,
+ * Achievement Notifications, Player Profile Display, Leaderboard
+ */
+
+/* ============================================================
+   SETTINGS PANEL
+   ============================================================ */
+
+.arcade-settings-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.85);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    animation: fadeIn 0.2s ease-out;
+}
+
+.arcade-settings-panel {
+    background: linear-gradient(145deg, #1a1a2e, #16213e);
+    border: 2px solid #0ff;
+    border-radius: 12px;
+    padding: 30px;
+    min-width: 400px;
+    max-width: 500px;
+    box-shadow: 0 0 30px rgba(0, 255, 255, 0.3), inset 0 0 20px rgba(0, 255, 255, 0.05);
+    animation: slideIn 0.3s ease-out;
+}
+
+.arcade-settings-panel h3 {
+    color: #0ff;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 18px;
+    text-align: center;
+    margin-bottom: 25px;
+    text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+}
+
+.settings-section {
+    margin-bottom: 18px;
+    padding: 12px;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 8px;
+    border: 1px solid rgba(0, 255, 255, 0.1);
+}
+
+.settings-section label {
+    color: #0f0;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 10px;
+    display: block;
+    margin-bottom: 8px;
+}
+
+.settings-section select,
+.settings-section input[type="range"] {
+    width: 100%;
+    padding: 8px;
+    background: #0a0a1a;
+    border: 1px solid #0ff;
+    border-radius: 4px;
+    color: #0ff;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 10px;
+}
+
+.settings-section select {
+    cursor: pointer;
+}
+
+.settings-section select:hover {
+    background: #10102a;
+}
+
+.settings-section input[type="range"] {
+    -webkit-appearance: none;
+    height: 8px;
+    padding: 0;
+}
+
+.settings-section input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 16px;
+    height: 16px;
+    background: #0ff;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.settings-section input[type="checkbox"] {
+    margin-right: 8px;
+    accent-color: #0ff;
+}
+
+.settings-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 25px;
+}
+
+.settings-actions button {
+    padding: 12px 20px;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 10px;
+    border: 2px solid;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background: transparent;
+}
+
+#setting-apply {
+    color: #0f0;
+    border-color: #0f0;
+}
+
+#setting-apply:hover {
+    background: #0f0;
+    color: #000;
+    box-shadow: 0 0 15px rgba(0, 255, 0, 0.5);
+}
+
+#setting-reset {
+    color: #ff0;
+    border-color: #ff0;
+}
+
+#setting-reset:hover {
+    background: #ff0;
+    color: #000;
+    box-shadow: 0 0 15px rgba(255, 255, 0, 0.5);
+}
+
+#setting-close {
+    color: #f00;
+    border-color: #f00;
+}
+
+#setting-close:hover {
+    background: #f00;
+    color: #fff;
+    box-shadow: 0 0 15px rgba(255, 0, 0, 0.5);
+}
+
+/* ============================================================
+   IMPROVED GAME OVER SCREEN
+   ============================================================ */
+
+.arcade-game-over {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 900;
+    animation: fadeIn 0.3s ease-out;
+}
+
+.arcade-game-over-content {
+    background: linear-gradient(145deg, #1a1a2e, #16213e);
+    border: 3px solid #f00;
+    border-radius: 16px;
+    padding: 35px;
+    min-width: 450px;
+    max-width: 550px;
+    text-align: center;
+    box-shadow: 0 0 40px rgba(255, 0, 0, 0.3), inset 0 0 30px rgba(255, 0, 0, 0.05);
+    animation: slideIn 0.4s ease-out;
+}
+
+.arcade-game-over-content h2 {
+    color: #f00;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 28px;
+    margin-bottom: 25px;
+    text-shadow: 0 0 20px rgba(255, 0, 0, 0.6);
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+.arcade-score-display {
+    margin-bottom: 25px;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.4);
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.arcade-final-score {
+    color: #0f0;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 36px;
+    text-shadow: 0 0 15px rgba(0, 255, 0, 0.5);
+    margin-bottom: 10px;
+}
+
+.arcade-high-score-label {
+    color: #888;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 10px;
+    margin-top: 15px;
+}
+
+.arcade-high-score {
+    color: #ff0;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 24px;
+    text-shadow: 0 0 10px rgba(255, 255, 0, 0.4);
+}
+
+.arcade-game-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.stat-item {
+    padding: 12px;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 8px;
+    border: 1px solid rgba(0, 255, 255, 0.1);
+}
+
+.stat-label {
+    color: #888;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 9px;
+    display: block;
+    margin-bottom: 6px;
+}
+
+.stat-value {
+    color: #0ff;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 14px;
+    text-shadow: 0 0 8px rgba(0, 255, 255, 0.4);
+}
+
+.arcade-achievement-progress {
+    margin-bottom: 20px;
+    padding: 15px;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 0, 0.1);
+}
+
+.achievement-bar {
+    width: 100%;
+    height: 12px;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 6px;
+    overflow: hidden;
+    margin-bottom: 8px;
+}
+
+.achievement-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #ff0, #0f0);
+    border-radius: 6px;
+    transition: width 0.5s ease;
+    box-shadow: 0 0 10px rgba(255, 255, 0, 0.3);
+}
+
+.achievement-label {
+    color: #ff0;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 9px;
+}
+
+.arcade-game-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.arcade-game-actions button {
+    padding: 14px 22px;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 11px;
+    border: 2px solid;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background: transparent;
+    min-width: 130px;
+}
+
+.arcade-restart-btn {
+    color: #0f0;
+    border-color: #0f0;
+}
+
+.arcade-restart-btn:hover {
+    background: #0f0;
+    color: #000;
+    box-shadow: 0 0 20px rgba(0, 255, 0, 0.5);
+    transform: scale(1.05);
+}
+
+.arcade-settings-btn {
+    color: #0ff;
+    border-color: #0ff;
+}
+
+.arcade-settings-btn:hover {
+    background: #0ff;
+    color: #000;
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+    transform: scale(1.05);
+}
+
+.arcade-share-btn {
+    color: #f0f;
+    border-color: #f0f;
+}
+
+.arcade-share-btn:hover {
+    background: #f0f;
+    color: #000;
+    box-shadow: 0 0 20px rgba(255, 0, 255, 0.5);
+    transform: scale(1.05);
+}
+
+/* ============================================================
+   TUTORIAL SYSTEM
+   ============================================================ */
+
+.arcade-tutorial-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 800;
+    animation: fadeIn 0.3s ease-out;
+}
+
+.arcade-tutorial-panel {
+    background: linear-gradient(145deg, #1a1a2e, #16213e);
+    border: 2px solid #0ff;
+    border-radius: 12px;
+    padding: 30px;
+    min-width: 380px;
+    max-width: 480px;
+    box-shadow: 0 0 30px rgba(0, 255, 255, 0.3);
+    animation: slideIn 0.4s ease-out;
+}
+
+.arcade-tutorial-panel h3 {
+    color: #0ff;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 16px;
+    text-align: center;
+    margin-bottom: 20px;
+    text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+}
+
+.arcade-tutorial-steps {
+    margin-bottom: 20px;
+}
+
+.tutorial-step {
+    display: flex;
+    align-items: flex-start;
+    padding: 12px;
+    margin-bottom: 8px;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 8px;
+    border-left: 3px solid #0ff;
+}
+
+.step-number {
+    color: #0ff;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 14px;
+    min-width: 30px;
+    margin-right: 15px;
+    text-shadow: 0 0 8px rgba(0, 255, 255, 0.4);
+}
+
+.step-text {
+    color: #ccc;
+    font-family: 'Courier New', monospace;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.arcade-tutorial-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+}
+
+.arcade-tutorial-actions button {
+    padding: 12px 24px;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 10px;
+    border: 2px solid;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background: transparent;
+}
+
+#tutorial-skip {
+    color: #888;
+    border-color: #888;
+}
+
+#tutorial-skip:hover {
+    background: #888;
+    color: #000;
+}
+
+#tutorial-complete {
+    color: #0f0;
+    border-color: #0f0;
+}
+
+#tutorial-complete:hover {
+    background: #0f0;
+    color: #000;
+    box-shadow: 0 0 15px rgba(0, 255, 0, 0.5);
+}
+
+/* ============================================================
+   ACHIEVEMENT NOTIFICATION
+   ============================================================ */
+
+.achievement-notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: linear-gradient(145deg, #1a1a2e, #16213e);
+    border: 2px solid #ff0;
+    border-radius: 12px;
+    padding: 20px 25px;
+    min-width: 300px;
+    max-width: 400px;
+    z-index: 2000;
+    box-shadow: 0 0 30px rgba(255, 255, 0, 0.4);
+    animation: slideInRight 0.5s ease-out;
+}
+
+.achievement-notification .notif-header {
+    color: #ff0;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 10px;
+    margin-bottom: 10px;
+    text-shadow: 0 0 8px rgba(255, 255, 0, 0.5);
+}
+
+.achievement-notification .notif-name {
+    color: #0f0;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 14px;
+    margin-bottom: 6px;
+    text-shadow: 0 0 10px rgba(0, 255, 0, 0.4);
+}
+
+.achievement-notification .notif-desc {
+    color: #ccc;
+    font-family: 'Courier New', monospace;
+    font-size: 12px;
+}
+
+.achievement-notification .notif-close {
+    position: absolute;
+    top: 8px;
+    right: 12px;
+    color: #888;
+    font-size: 18px;
+    cursor: pointer;
+    background: none;
+    border: none;
+}
+
+.achievement-notification .notif-close:hover {
+    color: #fff;
+}
+
+/* ============================================================
+   LEADERBOARD DISPLAY
+   ============================================================ */
+
+.arcade-leaderboard-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.85);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 950;
+    animation: fadeIn 0.3s ease-out;
+}
+
+.arcade-leaderboard-panel {
+    background: linear-gradient(145deg, #1a1a2e, #16213e);
+    border: 2px solid #ff0;
+    border-radius: 12px;
+    padding: 30px;
+    min-width: 400px;
+    max-width: 500px;
+    box-shadow: 0 0 30px rgba(255, 255, 0, 0.3);
+}
+
+.arcade-leaderboard-panel h3 {
+    color: #ff0;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 16px;
+    text-align: center;
+    margin-bottom: 20px;
+    text-shadow: 0 0 10px rgba(255, 255, 0, 0.5);
+}
+
+.leaderboard-entry {
+    display: flex;
+    align-items: center;
+    padding: 10px 15px;
+    margin-bottom: 6px;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 6px;
+    border-left: 3px solid #333;
+}
+
+.leaderboard-entry:nth-child(1) {
+    border-left-color: #ffd700;
+    background: rgba(255, 215, 0, 0.1);
+}
+
+.leaderboard-entry:nth-child(2) {
+    border-left-color: #c0c0c0;
+    background: rgba(192, 192, 192, 0.05);
+}
+
+.leaderboard-entry:nth-child(3) {
+    border-left-color: #cd7f32;
+    background: rgba(205, 127, 50, 0.05);
+}
+
+.leaderboard-rank {
+    color: #fff;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 14px;
+    min-width: 35px;
+}
+
+.leaderboard-score {
+    color: #0f0;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 12px;
+    flex: 1;
+    text-align: right;
+    margin-right: 15px;
+}
+
+.leaderboard-difficulty {
+    color: #888;
+    font-family: 'Courier New', monospace;
+    font-size: 10px;
+}
+
+.leaderboard-empty {
+    color: #666;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 12px;
+    text-align: center;
+    padding: 30px;
+}
+
+.leaderboard-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.leaderboard-actions button {
+    padding: 10px 18px;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 9px;
+    border: 2px solid;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background: transparent;
+}
+
+#leaderboard-close {
+    color: #f00;
+    border-color: #f00;
+}
+
+#leaderboard-close:hover {
+    background: #f00;
+    color: #fff;
+}
+
+#leaderboard-copy {
+    color: #0ff;
+    border-color: #0ff;
+}
+
+#leaderboard-copy:hover {
+    background: #0ff;
+    color: #000;
+}
+
+#leaderboard-clear {
+    color: #ff0;
+    border-color: #ff0;
+}
+
+#leaderboard-clear:hover {
+    background: #ff0;
+    color: #000;
+}
+
+/* ============================================================
+   PLAYER PROFILE DISPLAY
+   ============================================================ */
+
+.arcade-profile-display {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: rgba(0, 0, 0, 0.7);
+    border: 1px solid rgba(0, 255, 255, 0.3);
+    border-radius: 8px;
+    padding: 10px 15px;
+    z-index: 100;
+}
+
+.profile-level {
+    color: #ff0;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 10px;
+    margin-bottom: 4px;
+}
+
+.profile-xp-bar {
+    width: 120px;
+    height: 6px;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.profile-xp-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #ff0, #0f0);
+    border-radius: 3px;
+    transition: width 0.3s ease;
+}
+
+/* ============================================================
+   ANIMATIONS
+   ============================================================ */
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-30px) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(100px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+@keyframes achievementPop {
+    0% { transform: scale(0); opacity: 0; }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+/* ============================================================
+   COLORBLIND MODE
+   ============================================================ */
+
+.colorblind-mode .arcade-game-over-content,
+.colorblind-mode .arcade-settings-panel,
+.colorblind-mode .arcade-tutorial-panel {
+    border-width: 3px;
+    border-style: solid;
+}
+
+.colorblind-mode .stat-item,
+.colorblind-mode .tutorial-step,
+.colorblind-mode .settings-section {
+    border: 2px dashed rgba(255, 255, 255, 0.3);
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+
+@media (max-width: 600px) {
+    .arcade-settings-panel,
+    .arcade-game-over-content,
+    .arcade-tutorial-panel,
+    .arcade-leaderboard-panel {
+        min-width: auto;
+        max-width: 90vw;
+        margin: 10px;
+        padding: 20px;
+    }
+    
+    .arcade-game-stats {
+        grid-template-columns: 1fr;
+    }
+    
+    .arcade-game-actions {
+        flex-direction: column;
+    }
+    
+    .arcade-game-actions button {
+        width: 100%;
+    }
+}
