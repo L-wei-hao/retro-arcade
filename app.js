@@ -204,12 +204,21 @@
     // Restart game
     function restartGame() {
         if (!currentGame) return;
+
         gameOverScreen.classList.add('hidden');
         currentGame.reset();
+        currentGame._gameOverShown = false;
         scoreDisplay.textContent = '0';
         
         // Reset timing
         gameStartTime = Date.now();
+
+        // Immediately relaunch games that expose an explicit restart/start method.
+        if (typeof currentGame.startRun === 'function') {
+            currentGame.startRun();
+        } else if (typeof currentGame.start === 'function') {
+            currentGame.start();
+        }
         
         if (currentGame.stopTimer) {
             currentGame.stopTimer();
