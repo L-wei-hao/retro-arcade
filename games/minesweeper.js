@@ -155,7 +155,7 @@ class MinesweeperGame {
         let unrevealedSafe = 0;
         for (let r = 0; r < this.rows; r++) {
             for (let c = 0; c < this.cols; c++) {
-                if (!this.board[r][c] === -1 && !this.revealed[r][c]) {
+                if (this.board[r][c] !== -1 && !this.revealed[r][c]) {
                     unrevealedSafe++;
                 }
             }

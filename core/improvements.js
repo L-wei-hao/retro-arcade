@@ -307,6 +307,18 @@ const TutorialSystem = {
             ],
             completedKey: 'invaders_tutorial_done'
         },
+        orbitimpact: {
+            title: '▻ Orbit Impact',
+            steps: [
+                'Press ENTER to start the mission',
+                'Arrow Keys or WASD move within the auto-scrolling screen',
+                'SPACE fires your basic laser',
+                'Z uses Rocket, Bomb, or Beam ammo; X switches weapon',
+                'Collect +, A, R, S, and $ power-ups',
+                'Survive each sector and defeat the boss at the end'
+            ],
+            completedKey: 'orbitimpact_tutorial_done'
+        },
         tetris: {
             title: '🟦 Tetris',
             steps: [
@@ -382,7 +394,7 @@ const PlayerProfile = {
             created: new Date().toISOString(),
             level: 1,
             totalXP: 0,
-            gamesPlayed: { snake: 0, breakout: 0, spaceinvaders: 0, tetris: 0, pong: 0, minesweeper: 0 },
+            gamesPlayed: { snake: 0, breakout: 0, spaceinvaders: 0, orbitimpact: 0, tetris: 0, pong: 0, minesweeper: 0 },
             totalPlaytime: 0,
             lastPlayed: {},
             preferences: {}
@@ -594,7 +606,7 @@ const ArcadeImprovements = {
     },
 
     // Generate tutorial HTML
-    createTutorialHTML(game, onDismiss, onComplete) {
+    createTutorialHTML(game) {
         const tutorial = this.tutorial;
         if (tutorial.hasCompleted(game)) return '';
 
@@ -602,21 +614,19 @@ const ArcadeImprovements = {
         const title = tutorial.getTitle(game);
 
         return `
-            <div class="arcade-tutorial-overlay">
-                <div class="arcade-tutorial-panel">
-                    <h3>${title}</h3>
-                    <div class="arcade-tutorial-steps">
-                        ${steps.map((step, i) => `
-                            <div class="tutorial-step">
-                                <div class="step-number">${i + 1}</div>
-                                <div class="step-text">${step}</div>
-                            </div>
-                        `).join('')}
-                    </div>
-                    <div class="arcade-tutorial-actions">
-                        <button id="tutorial-skip">SKIP</button>
-                        <button id="tutorial-complete">GOT IT!</button>
-                    </div>
+            <div class="arcade-tutorial-panel">
+                <h3>${title}</h3>
+                <div class="arcade-tutorial-steps">
+                    ${steps.map((step, i) => `
+                        <div class="tutorial-step">
+                            <div class="step-number">${i + 1}</div>
+                            <div class="step-text">${step}</div>
+                        </div>
+                    `).join('')}
+                </div>
+                <div class="arcade-tutorial-actions">
+                    <button id="tutorial-skip">SKIP</button>
+                    <button id="tutorial-complete">GOT IT!</button>
                 </div>
             </div>
         `;

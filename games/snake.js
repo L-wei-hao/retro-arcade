@@ -25,6 +25,7 @@ class SnakeGame {
         this.bonusCooldown = 0;
         // Sound
         this.lastEatTime = 0;
+        this.startGraceUntil = 0;
     }
 
     init() {
@@ -48,6 +49,7 @@ class SnakeGame {
         this.score = 0;
         this.gameStarted = false;
         this.gameOver = false;
+        this.startGraceUntil = 0;
         this.placeFood();
     }
 
@@ -79,6 +81,10 @@ class SnakeGame {
 
     update(timestamp) {
         if (!this.gameStarted || this.gameOver) return;
+
+        if (this.startGraceUntil && timestamp < this.startGraceUntil) {
+            return;
+        }
 
         if (timestamp - this.lastUpdate < this.speed) return;
         this.lastUpdate = timestamp;
@@ -179,6 +185,8 @@ class SnakeGame {
 
     start() {
         this.gameStarted = true;
+        this.lastUpdate = 0;
+        this.startGraceUntil = performance.now() + 150;
         retroSounds.init();
         retroSounds.playStart();
     }

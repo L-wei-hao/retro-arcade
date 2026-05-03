@@ -41,6 +41,7 @@
         snake: 'SNAKE',
         breakout: 'BREAKOUT',
         spaceinvaders: 'SPACE INVADERS',
+        orbitimpact: 'ORBIT IMPACT',
         tetris: 'TETRIS',
         pong: 'PONG',
         minesweeper: 'MINESWEEPER'
@@ -52,6 +53,7 @@
             case 'snake': return new SnakeGame(gameCanvas);
             case 'breakout': return new BreakoutGame(gameCanvas);
             case 'spaceinvaders': return new SpaceInvadersGame(gameCanvas);
+            case 'orbitimpact': return new OrbitImpactGame(gameCanvas);
             case 'tetris': return new TetrisGame(gameCanvas);
             case 'pong': return new PongGame(gameCanvas);
             case 'minesweeper': return new MinesweeperGame(gameCanvas);
@@ -59,7 +61,30 @@
         }
     }
 
-    // Start a game
+    function fitGameCanvas() {
+        if (!currentGame) return;
+
+        const header = gameScreen.querySelector('.game-header');
+        const footer = gameScreen.querySelector('.game-controls-info');
+        const screenRect = gameScreen.getBoundingClientRect();
+        const headerH = header ? header.getBoundingClientRect().height : 0;
+        const footerH = footer ? footer.getBoundingClientRect().height : 0;
+        const availableW = screenRect.width;
+        const availableH = Math.max(0, screenRect.height - headerH - footerH);
+        const intrinsicW = gameCanvas.width || currentGame.canvas.width;
+        const intrinsicH = gameCanvas.height || currentGame.canvas.height;
+
+        if (!intrinsicW || !intrinsicH || !availableW || !availableH) return;
+
+        const scale = Math.min(availableW / intrinsicW, availableH / intrinsicH);
+        const displayW = Math.floor(intrinsicW * scale);
+        const displayH = Math.floor(intrinsicH * scale);
+
+        gameCanvas.style.width = `${displayW}px`;
+        gameCanvas.style.height = `${displayH}px`;
+        gameCanvas.style.alignSelf = 'center';
+    }
+
     function startGame(gameName) {
         // Initialize audio on first user interaction
         retroSounds.init();
@@ -73,6 +98,7 @@
         }
         
         currentGameName = gameName;
+        gameScreen.dataset.game = gameName;
         currentGame = createGame(gameName);
         currentGame.init();
 
@@ -85,6 +111,16 @@
         // Update UI
         gameTitle.textContent = gameTitles[gameName];
         scoreDisplay.textContent = '0';
+        const controlSpans = gameScreen.querySelectorAll('.game-controls-info span');
+        if (gameName === 'orbitimpact' && controlSpans.length >= 3) {
+            controlSpans[0].textContent = 'Arrow Keys / WASD - Move';
+            controlSpans[1].textContent = 'Space - Fire | Z Special | X Switch';
+            controlSpans[2].textContent = 'Enter - Start | Esc - Pause';
+        } else if (controlSpans.length >= 3) {
+            controlSpans[0].textContent = 'Arrow Keys / WASD - Move';
+            controlSpans[1].textContent = 'Space - Action';
+            controlSpans[2].textContent = 'Enter - Start';
+        }
         mainMenu.classList.remove('active');
         gameScreen.classList.add('active');
         gameOverScreen.classList.add('hidden');
@@ -92,6 +128,7 @@
         // Resize canvas for the game
         gameCanvas.width = currentGame.canvas.width;
         gameCanvas.height = currentGame.canvas.height;
+        requestAnimationFrame(fitGameCanvas);
 
         // Track playtime
         gameStartTime = Date.now();
@@ -126,7 +163,10 @@
         }
         currentGame = null;
         currentGameName = null;
+        gameCanvas.style.width = '';
+        gameCanvas.style.height = '';
         gameScreen.classList.remove('active');
+        gameScreen.removeAttribute('data-game');
         mainMenu.classList.add('active');
         gameOverScreen.classList.add('hidden');
         settingsPanelOpen = false;
@@ -259,19 +299,19 @@
     restartBtn.addEventListener('click', restartGame);
 
     // Keyboard input
-    document.addEventListener('keydown', (e) => {
+    window.addEventListener('keydown', (e) => {
         if (!currentGame) return;
         if (currentGame.handleKeyDown) {
             currentGame.handleKeyDown(e);
         }
-    });
+    }, true);
 
-    document.addEventListener('keyup', (e) => {
+    window.addEventListener('keyup', (e) => {
         if (!currentGame) return;
         if (currentGame.handleKeyUp) {
             currentGame.handleKeyUp(e);
         }
-    });
+    }, true);
 
     // Canvas mouse input
     gameCanvas.addEventListener('mousedown', (e) => {
@@ -299,6 +339,10 @@
         }
     });
     
+    window.addEventListener('resize', () => {
+        fitGameCanvas();
+    });
+
     // ===== IMPROVEMENTS INTEGRATION =====
     
     // Show tutorial overlay
@@ -314,16 +358,22 @@
         overlay.id = 'tutorial-overlay';
         overlay.innerHTML = html;
         gameScreen.appendChild(overlay);
-        
-        // Bind buttons
-        document.getElementById('tutorial-skip').addEventListener('click', () => {
+
+        const dismissTutorial = (markComplete) => {
+            if (markComplete) {
+                TutorialSystem.markCompleted(gameName);
+            }
             removeOverlays();
-        });
-        
-        document.getElementById('tutorial-complete').addEventListener('click', () => {
-            TutorialSystem.markCompleted(gameName);
-            removeOverlays();
-        });
+
+            // Start the game immediately after dismissing the tutorial.
+            // This avoids input-focus issues and matches the on-screen prompt.
+            if (currentGame && currentGame.handleKeyDown) {
+                currentGame.handleKeyDown({ key: 'Enter', preventDefault() {} });
+            }
+        };
+
+        overlay.querySelector('#tutorial-skip')?.addEventListener('click', () => dismissTutorial(false));
+        overlay.querySelector('#tutorial-complete')?.addEventListener('click', () => dismissTutorial(true));
     }
     
     // Show settings panel
