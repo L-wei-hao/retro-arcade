@@ -1,92 +1,103 @@
-# 🕹️ RETRO ARCADE
+# Retro Arcade
 
 ![Retro Arcade Banner](https://github.com/L-wei-hao/retro-arcade/blob/main/screenshot.png?raw=true)
 
-A complete, end-to-end retro arcade suite developed from scratch via a locally hosted instance of **Qwen/Qwen3.6-35B-A3B**. This project showcases the capabilities of self-hosted Large Language Models in complex, multi-component game development.
+Retro Arcade is a browser-based collection of classic and original mini-games built with HTML5 Canvas, plain JavaScript, and CSS. It is a static project, so you can open it locally and play without installing any backend services.
 
----
+## Highlights
 
-## 🎨 Design Philosophy
-The arcade is designed with a **Retro-Futuristic** aesthetic, blending classic 8-bit visuals with modern web technologies:
-- **CRT Effect**: Immersive scanline overlays and radial vignette for an authentic cathode-ray tube feel.
-- **Glitch Visuals**: Dynamic CSS-driven glitch animations for titles and UI elements.
-- **Neon Palette**: High-contrast, vibrant color schemes featuring cyan, magenta, and neon yellow.
-- **Micro-animations**: Smooth transitions, hover rotations, and feedback effects that make the interface feel alive.
+- 7 playable games in one launcher
+- Retro-futuristic CRT-inspired visual style
+- Keyboard, mouse, and touch-friendly input support
+- Local high scores and progression features stored in browser storage
+- Lightweight audio generated with the Web Audio API
+- No external game engine or sprite pipeline required
 
-## 🏗️ Architecture
-The project follows a modular, object-oriented architecture designed for scalability and ease of maintenance.
+## Included Games
 
-### 1. Core Engine (`app.js`)
-The central nervous system of the arcade. It manages:
-- **Screen State**: Switching between the Main Menu and the active Game Screen.
-- **Game Lifecycle**: Initializing, updating, and drawing the current game instance.
-- **Unified Event Handling**: Centralized keyboard and mouse input routing.
-- **Global Systems**: Integration with the XP, Achievement, and Leaderboard systems.
+| Game | Description |
+| :--- | :--- |
+| Snake | Classic growth-and-survival gameplay. Eat food, avoid walls, and do not crash into yourself. |
+| Breakout | Paddle-and-ball brick breaker with increasing difficulty. |
+| Space Invaders | Vertical shooter where you defend Earth from alien waves. |
+| Orbit Impact | Neon horizontal shooter with scrolling levels, power-ups, and boss fights. |
+| Tetris | Classic block-stacking puzzle game. |
+| Pong | Head-to-head paddle tennis. |
+| Minesweeper | Grid-based logic puzzle with mine detection. |
 
-### 2. Game Modules (`games/*.js`)
-Each game is implemented as a standalone class/object following a standard interface:
-- `init()`: Setup game state and assets.
-- `update(delta)`: Process game logic and physics.
-- `draw()`: Render frame to the canvas.
-- `reset()`: Return to starting state.
+## Features
 
-### 3. Audio System (`sound.js`)
-A custom synthesizer that generates retro-style SFX and music on the fly using the Web Audio API, eliminating the need for external asset files.
+- Difficulty tiers: Easy, Normal, and Hard
+- CRT toggle for scanlines and vignette effects
+- Achievements and progress tracking
+- Local leaderboards and top-score storage
+- Built-in tutorials and onboarding for each game
+- Mobile-friendly on-screen controls for supported games
 
-### 4. Persistence & Metadata (`core/improvements.js`)
-Handles complex features like:
-- **Leaderboards**: LocalStorage-backed high score tracking.
-- **Achievement Engine**: Logic for unlocking and notifying players of milestones.
-- **Leveling System**: XP calculation and player progression.
+## Project Structure
 
----
+- `app.js` - Main application shell, menu flow, and game routing
+- `games/*.js` - Individual game implementations
+- `sound.js` - Retro-style sound effects and music via Web Audio API
+- `core/improvements.js` - Shared systems such as achievements, levels, and leaderboards
+- `styles.css` - Global UI styling and CRT presentation
+- `index.html` - Main entry point
 
-## 🎮 The Games
-The suite includes six classic arcade experiences:
+## Orbit Impact
 
-| Game | Description | Goal |
-| :--- | :--- | :--- |
-| **🐍 Snake** | Classic growth survival | Eat food, avoid walls and your own tail. |
-| **🧱 Breakout** | Physics-based brick breaker | Clear all blocks using the paddle and ball. |
-| **👾 Space Invaders**| Vertical defense shooter | Defend Earth from waves of alien attackers. |
-| **🟦 Tetris** | Geometric puzzle solver | Stack and clear horizontal lines. |
-| **🏓 Pong** | Competitive paddle tennis | Score points by getting the ball past the opponent. |
-| **💣 Minesweeper** | Strategic grid exploration | Identify all hidden mines without detonating them. |
+Orbit Impact is an original side-scrolling shooter inspired by early-2000s mobile games. It uses generated shapes instead of external art assets, while keeping the same neon CRT direction as the rest of the arcade.
 
----
+Controls:
+- Desktop: Arrow keys or WASD to move, Space to fire, Z to use the selected special weapon, X to switch special weapon, Enter to start or confirm, Esc to pause, R to restart after game over
+- Keypad mode: 8 up, 0 down, * left, # right, 1 or 3 fire, 4 or 6 special weapon
+- Mobile: on-screen D-pad, Fire, Special, and Switch buttons appear on touch devices and small screens
 
-## 🛠️ Features
-- **Difficulty Tiers**: Switch between Easy, Normal, and Hard modes to challenge yourself.
-- **CRT Toggle**: Enable or disable the scanline effect for a cleaner or more retro look.
-- **Achievements**: Unlock specific milestones like "Speed Demon" or "Snake Master".
-- **Leaderboards**: Compete with yourself to climb the local rankings.
-- **Tutorials**: Integrated onboarding for every game to get you started quickly.
+Gameplay:
+- 8 themed levels: Outer Orbit, Asteroid Belt, Lunar Tunnel, Alien Outpost, Ice Planet, Magma Core, Mechanical Hive, and Final Mothership
+- Auto-scrolling stages with boss encounters at the end of each sector
+- Enemy variety includes straight-line ships, sine-wave ships, pursuing ships, projectile shooters, and durable mini-enemies
+- Special weapons include Rocket, Bomb, and Beam, which consume ammo or energy from pickups
+- Power-ups grant health, special ammo, rapid fire, shield, or score bonuses
+- Scores are saved locally with end-of-run bonuses and boss rewards
 
----
+## How to Run
 
-## 🚀 How to Run
+### Option 1: Open directly
 
-Since this is a static web application, you can run it without any heavy dependencies.
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/L-wei-hao/retro-arcade.git
+   ```
+2. Open `index.html` in a modern browser.
 
-### Option 1: Simple Open
-1. Clone the repository: `git clone https://github.com/L-wei-hao/retro-arcade.git`
-2. Open `index.html` in any modern web browser.
+### Option 2: Run a local server
 
-### Option 2: Local Server (Recommended)
-For the best experience, use a local development server:
+Recommended for the smoothest experience:
+
 ```bash
-# Using Python
+# Python
 python -m http.server 8000
 
-# Using Node.js
+# Node.js
 npx serve .
 ```
-Then visit `http://localhost:8000` (or the port specified).
+
+Then open `http://localhost:8000` in your browser.
+
+## Browser Notes
+
+- Best experienced in Chromium-based browsers, Firefox, or Safari
+- Web Audio works best after a user interaction such as a click or key press
+- LocalStorage is used for scores, achievements, and progression data
+
+## Development Context
+
+This project was developed and refined with the help of a locally hosted large language model workflow. The result is a fully playable arcade suite built as a single static web app.
+
+## License
+
+No license file is currently included in this repository. If you plan to reuse or distribute the project, add an appropriate license first.
 
 ---
 
-## 🤖 Development Context
-This entire project—from the CSS glitch effects to the collision logic in Tetris—was generated and refined using a locally hosted **Qwen/Qwen3.6-35B-A3B** model. It serves as a testament to the power of open-source AI in the modern development workflow.
-
----
-Developed by **L-wei-hao** 🕹️
+Developed by L-wei-hao
