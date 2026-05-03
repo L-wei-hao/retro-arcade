@@ -269,6 +269,7 @@
         }
         
         // High score check
+        const highScore = currentGame && typeof currentGame.highScore === 'number' ? currentGame.highScore : 0;
         if (score >= highScore && score > 0) {
             achievements.unlockAchievement('high_roller');
         }
