@@ -635,6 +635,12 @@
         const xpInLevel = xp - ((level - 1) * 500);
         const xpNeeded = 500;
         const xpPercent = (xpInLevel / xpNeeded) * 100;
+        const header = gameScreen.querySelector('.game-header');
+        const headerHeight = header ? header.offsetHeight : 0;
+
+        profileEl.style.top = `${headerHeight + 10}px`;
+        profileEl.style.right = '10px';
+        profileEl.style.maxWidth = 'calc(100% - 20px)';
         
         profileEl.innerHTML = `
             <div class="profile-level">LVL ${level}</div>

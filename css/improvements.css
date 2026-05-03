@@ -657,6 +657,9 @@
     border-radius: 8px;
     padding: 10px 15px;
     z-index: 100;
+    box-sizing: border-box;
+    max-width: calc(100% - 20px);
+    pointer-events: none;
 }
 
 .profile-level {
@@ -664,10 +667,12 @@
     font-family: 'Press Start 2P', monospace;
     font-size: 10px;
     margin-bottom: 4px;
+    white-space: nowrap;
 }
 
 .profile-xp-bar {
     width: 120px;
+    max-width: 100%;
     height: 6px;
     background: rgba(0, 0, 0, 0.5);
     border-radius: 3px;
@@ -679,6 +684,7 @@
     background: linear-gradient(90deg, #ff0, #0f0);
     border-radius: 3px;
     transition: width 0.3s ease;
+    min-width: 4px;
 }
 
 /* ============================================================
@@ -768,5 +774,16 @@
     .arcade-game-actions button {
         width: 100%;
         max-width: none;
+    }
+
+    .arcade-profile-display {
+        top: 56px;
+        right: 8px;
+        left: 8px;
+        max-width: none;
+    }
+
+    .profile-xp-bar {
+        width: 100%;
     }
 }
