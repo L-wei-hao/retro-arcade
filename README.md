@@ -1,8 +1,8 @@
 # Retro Arcade
 
-![Retro Arcade Banner](https://github.com/L-wei-hao/retro-arcade/blob/main/screenshot.png?raw=true)
-
 Retro Arcade is a browser-based collection of classic and original mini-games built with HTML5 Canvas, plain JavaScript, and CSS. It is a static project, so you can open it locally and play without installing any backend services.
+
+Note: the previous banner image was pointing to a missing `screenshot.png` file, so it has been removed to avoid a broken image in GitHub.
 
 ## Highlights
 
