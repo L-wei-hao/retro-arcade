@@ -306,10 +306,39 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap: 12px 14px;
     padding: 10px 20px;
     background: #111;
     border-bottom: 2px solid #333;
     flex-shrink: 0; /* Don't shrink header */
+    flex-wrap: wrap;
+}
+
+.game-header > * {
+    flex-shrink: 0;
+}
+
+#game-settings-btn {
+    margin-left: 0 !important;
+}
+
+.game-title {
+    font-size: 16px;
+    color: #ff0;
+    text-shadow: 0 0 10px rgba(255, 255, 0, 0.5);
+    flex: 1 1 220px;
+    min-width: 0;
+    text-align: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.score-display {
+    font-size: 10px;
+    color: #0f0;
+    text-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+    white-space: nowrap;
 }
 
 .retro-btn {
@@ -331,17 +360,6 @@ body {
     box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
 }
 
-.game-title {
-    font-size: 16px;
-    color: #ff0;
-    text-shadow: 0 0 10px rgba(255, 255, 0, 0.5);
-}
-
-.score-display {
-    font-size: 10px;
-    color: #0f0;
-    text-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
-}
 
 #game-canvas {
     flex: 1;
@@ -357,18 +375,62 @@ body {
 .game-controls-info {
     display: flex;
     justify-content: center;
-    gap: 30px;
+    gap: 16px 30px;
     padding: 10px;
     background: #111;
     border-top: 2px solid #333;
     flex-shrink: 0; /* Don't shrink footer */
+    flex-wrap: wrap;
 }
 
 .game-controls-info span {
     font-size: 8px;
     color: #666;
     font-family: 'Courier New', monospace;
+    white-space: nowrap;
 }
+
+@media (max-width: 720px) {
+    .game-header {
+        justify-content: center;
+        padding: 10px 12px;
+    }
+
+    .game-header > * {
+        order: initial;
+    }
+
+    #back-btn {
+        order: 1;
+    }
+
+    .score-display {
+        order: 2;
+        margin-left: 0;
+    }
+
+    #game-settings-btn {
+        order: 3;
+    }
+
+    .game-title {
+        order: 4;
+        flex: 1 0 100%;
+        width: 100%;
+        font-size: 14px;
+    }
+
+    .game-controls-info {
+        gap: 8px 18px;
+        padding: 8px 10px;
+    }
+
+    .game-controls-info span {
+        font-size: 7px;
+    }
+}
+
+
 
 /* ===== Game Over Screen ===== */
 .game-over-screen {

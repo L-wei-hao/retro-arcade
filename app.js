@@ -658,7 +658,6 @@
         settingsBtn.className = 'retro-btn';
         settingsBtn.id = 'game-settings-btn';
         settingsBtn.textContent = '⚙️';
-        settingsBtn.style.marginLeft = 'auto';
         settingsBtn.addEventListener('click', () => {
             if (currentGameName) showSettings(currentGameName);
         });
