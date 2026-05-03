@@ -21,6 +21,18 @@ class OrbitImpactGame {
         this.levelDuration = 125000;
         this.maxEntities = { bullets: 80, enemyBullets: 70, enemies: 55, powerups: 18, particles: 90 };
         this.mobileControls = null;
+        this.palette = {
+            bg0: '#050515',
+            bg1: '#0a1033',
+            bg2: '#1b0f3f',
+            cyan: '#00f7ff',
+            magenta: '#ff4fd8',
+            yellow: '#ffe45c',
+            green: '#67ff8c',
+            red: '#ff6b7a',
+            blue: '#72a7ff',
+            panel: 'rgba(6, 8, 28, 0.94)'
+        };
     }
 
     init() {
@@ -76,11 +88,13 @@ class OrbitImpactGame {
     }
 
     seedStars() {
+        const starColors = [this.palette.cyan, this.palette.magenta, this.palette.yellow, '#ffffff'];
         this.stars = Array.from({ length: 58 }, (_, i) => ({
             x: Math.random() * this.width,
             y: Math.random() * this.height,
             z: 0.25 + (i % 4) * 0.25,
-            blink: Math.random() * 10
+            blink: Math.random() * 10,
+            color: starColors[i % starColors.length]
         }));
     }
 
@@ -461,7 +475,7 @@ class OrbitImpactGame {
         const c = this.ctx;
         c.save();
         c.imageSmoothingEnabled = false;
-        c.fillStyle = '#080a2e'; c.fillRect(0, 0, this.width, this.height);
+        c.fillStyle = this.palette.bg0; c.fillRect(0, 0, this.width, this.height);
         this.drawBackground(c);
         if (this.state !== 'title') {
             this.drawEntities(c);
@@ -479,14 +493,79 @@ class OrbitImpactGame {
     }
 
     drawBackground(c) {
-        c.fillStyle = '#101044';
-        for (const s of this.stars) if (Math.sin(s.blink * 5) > -0.4) c.fillRect(Math.floor(s.x), Math.floor(s.y), s.z > 0.75 ? 2 : 1, 1);
-        c.strokeStyle = '#2842a8'; c.lineWidth = 1;
+        const sky = c.createLinearGradient(0, 0, 0, this.height);
+        sky.addColorStop(0, this.palette.bg1);
+        sky.addColorStop(0.5, this.palette.bg0);
+        sky.addColorStop(1, '#03030d');
+        c.fillStyle = sky;
+        c.fillRect(0, 0, this.width, this.height);
+
+        c.save();
+        c.globalAlpha = 0.22;
+        c.fillStyle = this.palette.cyan;
+        c.beginPath();
+        c.ellipse(268, 34, 30, 14, -0.3, 0, Math.PI * 2);
+        c.fill();
+        c.fillStyle = this.palette.magenta;
+        c.beginPath();
+        c.ellipse(52, 48, 18, 8, 0.2, 0, Math.PI * 2);
+        c.fill();
+        c.restore();
+
+        for (const s of this.stars) {
+            const twinkle = 0.45 + Math.max(0, Math.sin(s.blink * 5));
+            c.globalAlpha = twinkle * (s.z * 0.9 + 0.2);
+            c.fillStyle = s.color;
+            c.fillRect(Math.floor(s.x), Math.floor(s.y), s.z > 0.75 ? 2 : 1, s.z > 0.6 ? 2 : 1);
+        }
+        c.globalAlpha = 1;
+
+        c.strokeStyle = 'rgba(0, 247, 255, 0.14)';
+        for (let y = 22; y < this.height; y += 18) {
+            c.beginPath();
+            c.moveTo(0, y);
+            c.lineTo(this.width, y);
+            c.stroke();
+        }
+
+        c.strokeStyle = 'rgba(255, 79, 216, 0.18)';
+        for (let x = (this.scroll * 0.18) % 32; x < this.width; x += 32) {
+            c.beginPath();
+            c.moveTo(x, 18);
+            c.lineTo(x + 10, this.height);
+            c.stroke();
+        }
+
         const theme = this.level;
+        c.save();
+        c.globalAlpha = 0.65;
         if (theme === 2) for (let i = 0; i < 9; i++) this.rock(c, (i * 47 - this.scroll * 0.45) % 370 - 30, 30 + (i * 31) % 150, 8 + (i % 3) * 4);
-        if (theme === 3 || theme === 6) { c.fillStyle = '#171044'; c.fillRect(0, 20, this.width, 16); c.fillRect(0, this.height - 18, this.width, 18); }
-        if (theme === 4 || theme === 7 || theme === 8) for (let x = -30 + (this.scroll % 40); x < this.width; x += 40) { c.strokeRect(x, 28, 28, 10); c.strokeRect(x + 12, 168, 36, 12); }
-        if (theme === 5) for (let x = -20 + (this.scroll % 55); x < this.width; x += 55) { c.beginPath(); c.moveTo(x, 185); c.lineTo(x + 20, 160); c.lineTo(x + 42, 185); c.stroke(); }
+        if (theme === 3 || theme === 6) {
+            c.fillStyle = 'rgba(10, 16, 51, 0.78)';
+            c.fillRect(0, 20, this.width, 16);
+            c.fillRect(0, this.height - 18, this.width, 18);
+            c.strokeStyle = 'rgba(0, 247, 255, 0.24)';
+            c.strokeRect(0, 20, this.width, 16);
+            c.strokeRect(0, this.height - 18, this.width, 18);
+        }
+        if (theme === 4 || theme === 7 || theme === 8) {
+            c.strokeStyle = 'rgba(103, 255, 140, 0.22)';
+            for (let x = -30 + (this.scroll % 40); x < this.width; x += 40) {
+                c.strokeRect(x, 28, 28, 10);
+                c.strokeRect(x + 12, 168, 36, 12);
+            }
+        }
+        if (theme === 5) {
+            c.strokeStyle = 'rgba(255, 228, 92, 0.24)';
+            for (let x = -20 + (this.scroll % 55); x < this.width; x += 55) {
+                c.beginPath();
+                c.moveTo(x, 185);
+                c.lineTo(x + 20, 160);
+                c.lineTo(x + 42, 185);
+                c.stroke();
+            }
+        }
+        c.restore();
     }
 
     drawEntities(c) {
@@ -501,34 +580,103 @@ class OrbitImpactGame {
 
     drawPlayer(c) {
         const p = this.player;
-        c.fillStyle = this.hitGrace > 0 && Math.floor(this.hitGrace / 80) % 2 ? '#5555aa' : '#00ffff';
-        c.fillRect(p.x, p.y + 3, 12, 4); c.fillRect(p.x + 6, p.y, 7, 10); c.fillRect(p.x + 13, p.y + 4, 4, 2); c.fillRect(p.x - 3, p.y + 4, 3, 2);
-        if (this.shieldTimer > 0) { c.strokeStyle = '#00ffff'; c.strokeRect(p.x - 4, p.y - 4, p.w + 8, p.h + 8); }
+        const hull = this.hitGrace > 0 && Math.floor(this.hitGrace / 80) % 2 ? this.palette.blue : this.palette.cyan;
+        c.save();
+        c.shadowColor = hull;
+        c.shadowBlur = 6;
+        c.fillStyle = hull;
+        c.fillRect(p.x + 2, p.y + 3, 11, 4);
+        c.fillRect(p.x + 6, p.y + 1, 7, 8);
+        c.fillRect(p.x + 12, p.y + 4, 5, 2);
+        c.fillRect(p.x - 2, p.y + 4, 4, 2);
+        c.fillStyle = this.palette.magenta;
+        c.fillRect(p.x + 7, p.y + 3, 3, 2);
+        c.fillStyle = this.palette.yellow;
+        c.fillRect(p.x - 4, p.y + 4, 2, 2);
+        c.fillRect(p.x + 15, p.y + 4, 2, 2);
+        c.shadowBlur = 0;
+        c.strokeStyle = 'rgba(255,255,255,0.6)';
+        c.strokeRect(p.x + 1, p.y + 2, 13, 6);
+        if (this.shieldTimer > 0) {
+            c.strokeStyle = this.palette.cyan;
+            c.strokeRect(p.x - 5, p.y - 5, p.w + 10, p.h + 10);
+            c.strokeRect(p.x - 7, p.y - 7, p.w + 14, p.h + 14);
+        }
+        c.restore();
     }
 
     drawEnemy(c, e) {
-        c.fillStyle = e.type === 'durable' ? '#ffea00' : (e.type === 'shooter' ? '#ff4d6d' : e.type === 'chaser' ? '#00ff66' : '#ff00ff');
-        if (e.type === 'sine') { c.fillRect(e.x, e.y + 3, 13, 4); c.fillRect(e.x + 4, e.y, 5, 10); }
-        else if (e.type === 'chaser') { c.fillRect(e.x, e.y, 9, 9); c.fillRect(e.x + 9, e.y + 3, 4, 3); }
-        else if (e.type === 'shooter') { c.fillRect(e.x, e.y + 1, 12, 8); c.fillRect(e.x - 3, e.y + 4, 4, 2); }
-        else if (e.type === 'durable') { c.strokeRect(e.x, e.y, 17, 13); c.fillRect(e.x + 3, e.y + 3, 11, 7); }
-        else { c.fillRect(e.x, e.y + 2, 11, 6); c.fillRect(e.x + 11, e.y + 4, 3, 2); }
-        c.fillStyle = '#00ffff'; c.fillRect(e.x, e.y - 3, Math.max(1, e.w * (e.hp / e.maxHp)), 1);
+        const glow = e.type === 'durable' ? this.palette.yellow : (e.type === 'shooter' ? this.palette.red : e.type === 'chaser' ? this.palette.green : this.palette.magenta);
+        c.save();
+        c.shadowColor = glow;
+        c.shadowBlur = 5;
+        c.fillStyle = glow;
+        if (e.type === 'sine') {
+            c.fillRect(e.x, e.y + 3, 13, 4);
+            c.fillRect(e.x + 4, e.y, 5, 10);
+            c.fillStyle = this.palette.cyan;
+            c.fillRect(e.x + 6, e.y + 3, 2, 2);
+        } else if (e.type === 'chaser') {
+            c.fillRect(e.x, e.y + 1, 8, 8);
+            c.fillRect(e.x + 8, e.y + 3, 5, 3);
+            c.fillStyle = this.palette.cyan;
+            c.fillRect(e.x + 2, e.y + 3, 2, 2);
+        } else if (e.type === 'shooter') {
+            c.fillRect(e.x, e.y + 1, 12, 8);
+            c.fillRect(e.x - 4, e.y + 4, 5, 2);
+            c.fillStyle = this.palette.yellow;
+            c.fillRect(e.x + 4, e.y + 3, 4, 2);
+        } else if (e.type === 'durable') {
+            c.fillRect(e.x, e.y, 17, 13);
+            c.fillStyle = '#111';
+            c.fillRect(e.x + 3, e.y + 3, 11, 7);
+            c.fillStyle = this.palette.cyan;
+            c.fillRect(e.x + 5, e.y + 5, 6, 2);
+        } else {
+            c.fillRect(e.x, e.y + 2, 11, 6);
+            c.fillRect(e.x + 10, e.y + 4, 4, 2);
+        }
+        c.shadowBlur = 0;
+        c.strokeStyle = 'rgba(255,255,255,0.35)';
+        c.strokeRect(e.x - 1, e.y - 1, e.w + 2, e.h + 2);
+        c.fillStyle = this.palette.cyan;
+        c.fillRect(e.x, e.y - 3, Math.max(1, e.w * (e.hp / e.maxHp)), 1);
+        c.restore();
     }
 
     drawBoss(c, b) {
-        c.strokeStyle = '#00ffff'; c.fillStyle = '#ff4d6d';
-        c.strokeRect(b.x, b.y, b.w, b.h); c.fillRect(b.x + 8, b.y + 8, 24, 8); c.fillRect(b.x + 5, b.y + 28, 35, 12); c.fillRect(b.x + 10, b.y + 52, 28, 8);
-        c.fillStyle = '#00ffff'; c.fillRect(b.x - 8, b.y + 14, 8, 4); c.fillRect(b.x - 8, b.y + 54, 8, 4);
-        c.strokeRect(94, 13, 128, 5); c.fillRect(95, 14, 126 * Math.max(0, b.hp / b.maxHp), 3);
+        c.save();
+        c.shadowColor = this.palette.magenta;
+        c.shadowBlur = 8;
+        c.strokeStyle = this.palette.cyan;
+        c.fillStyle = this.palette.red;
+        c.strokeRect(b.x, b.y, b.w, b.h);
+        c.fillRect(b.x + 8, b.y + 8, 24, 8);
+        c.fillRect(b.x + 5, b.y + 28, 35, 12);
+        c.fillRect(b.x + 10, b.y + 52, 28, 8);
+        c.fillStyle = this.palette.cyan;
+        c.fillRect(b.x - 8, b.y + 14, 8, 4);
+        c.fillRect(b.x - 8, b.y + 54, 8, 4);
+        c.fillStyle = this.palette.yellow;
+        c.fillRect(b.x + 18, b.y + 18, 12, 10);
+        c.shadowBlur = 0;
+        c.strokeStyle = 'rgba(255,255,255,0.55)';
+        c.strokeRect(94, 13, 128, 5);
+        c.fillStyle = this.palette.magenta;
+        c.fillRect(95, 14, 126 * Math.max(0, b.hp / b.maxHp), 3);
+        c.restore();
     }
 
     drawBullet(c, b, own) {
-        c.fillStyle = own ? '#00ffff' : '#ff4d6d';
+        c.save();
+        c.shadowColor = own ? this.palette.cyan : this.palette.red;
+        c.shadowBlur = 4;
+        c.fillStyle = own ? this.palette.cyan : this.palette.red;
         if (b.type === 'beam') { c.fillRect(b.x, b.y, b.w, b.h); c.fillRect(b.x, b.y - 2, b.w, 1); }
         else if (b.type === 'rocket') { c.fillRect(b.x, b.y, b.w, b.h); c.fillRect(b.x - 2, b.y + 1, 2, 2); }
-        else if (b.type === 'bomb') { c.strokeRect(b.x, b.y, b.w, b.h); }
+        else if (b.type === 'bomb') { c.strokeStyle = own ? this.palette.cyan : this.palette.red; c.strokeRect(b.x, b.y, b.w, b.h); }
         else c.fillRect(b.x, b.y, b.w, b.h);
+        c.restore();
     }
 
     drawPower(c, p) {
@@ -539,22 +687,29 @@ class OrbitImpactGame {
     }
 
     drawHUD(c) {
-        c.fillStyle = '#080a2e'; c.fillRect(0, 0, this.width, 18);
-        c.strokeStyle = '#00ffff'; c.strokeRect(0, 0, this.width, 18);
-        c.fillStyle = '#00ffff'; c.font = '8px monospace';
+        c.fillStyle = 'rgba(6, 8, 28, 0.92)'; c.fillRect(0, 0, this.width, 18);
+        c.strokeStyle = this.palette.cyan; c.strokeRect(0, 0, this.width, 18);
+        c.fillStyle = this.palette.cyan; c.font = '8px "Press Start 2P", monospace';
         c.fillText(`L${this.level} ${this.themeNames[this.level - 1]}`, 5, 12);
         c.fillText(`♥${this.lives}`, 143, 12);
         c.fillText(`${this.weaponNames[this.specialIndex]} ${this.ammoText()}`, 171, 12);
         c.fillText(String(this.score).padStart(6, '0'), 270, 12);
-        c.fillStyle = '#ff00ff'; c.fillRect(5, 18, Math.min(310, 310 * (this.levelTime / this.levelDuration)), 2);
+        c.fillStyle = this.palette.magenta; c.fillRect(5, 18, Math.min(310, 310 * (this.levelTime / this.levelDuration)), 2);
     }
 
     ammoText() { return this.specialIndex === 0 ? this.ammo.rocket : this.specialIndex === 1 ? this.ammo.bomb : this.ammo.beam; }
 
     drawTitle(c) {
-        this.centerText(c, 'ORBIT IMPACT', 56, '#00ffff', '20px monospace');
-        this.centerText(c, 'MONOCHROME SPACE RUN', 78, '#ff00ff');
-        this.drawPanel(c, '', ['ENTER: START', 'ARROWS/WASD MOVE  SPACE FIRE', 'Z SPECIAL  X SWITCH  ESC PAUSE', 'MOBILE BUTTONS ENABLED']);
+        c.save();
+        c.fillStyle = 'rgba(5, 5, 21, 0.55)';
+        c.fillRect(18, 26, 284, 146);
+        c.strokeStyle = 'rgba(0, 247, 255, 0.35)';
+        c.strokeRect(18, 26, 284, 146);
+        this.centerText(c, 'ORBIT IMPACT', 55, this.palette.cyan, '20px "Press Start 2P", monospace');
+        this.centerText(c, 'NEON SPACE RUNNER', 77, this.palette.magenta, '10px "Press Start 2P", monospace');
+        this.centerText(c, 'ENTER TO LAUNCH', 102, this.palette.yellow, '10px "Press Start 2P", monospace');
+        this.drawPanel(c, '', ['ARROWS/WASD MOVE  SPACE FIRE', 'Z SPECIAL  X SWITCH  ESC PAUSE', 'MOBILE BUTTONS ENABLED']);
+        c.restore();
     }
 
     drawTopScores(c, title) {
@@ -565,11 +720,11 @@ class OrbitImpactGame {
     }
 
     drawPanel(c, title, lines) {
-        c.fillStyle = 'rgba(8, 10, 46, 0.94)'; c.fillRect(34, 45, 252, 118);
-        c.strokeStyle = '#00ffff'; c.strokeRect(34, 45, 252, 118); c.strokeRect(38, 49, 244, 110);
-        if (title) this.centerText(c, title, 65, '#00ffff', '15px monospace');
-        c.font = '8px monospace'; c.fillStyle = '#ffea00';
-        lines.forEach((line, i) => this.centerText(c, line, 84 + i * 11, i === 0 && !title ? '#00ffff' : '#ffea00'));
+        c.fillStyle = this.palette.panel; c.fillRect(34, 45, 252, 118);
+        c.strokeStyle = this.palette.cyan; c.strokeRect(34, 45, 252, 118); c.strokeRect(38, 49, 244, 110);
+        if (title) this.centerText(c, title, 65, this.palette.cyan, '15px "Press Start 2P", monospace');
+        c.font = '8px "Press Start 2P", monospace'; c.fillStyle = this.palette.yellow;
+        lines.forEach((line, i) => this.centerText(c, line, 84 + i * 11, i === 0 && !title ? this.palette.cyan : this.palette.yellow));
     }
 
     drawWarning(c) { if (Math.floor(this.warningTimer / 180) % 2) { c.strokeStyle = '#00ffff'; c.strokeRect(2, 21, this.width - 4, this.height - 24); } }

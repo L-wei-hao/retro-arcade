@@ -239,13 +239,15 @@ body {
     pointer-events: auto;
     min-width: 44px;
     min-height: 38px;
-    border: 2px solid #9fdf9f;
-    background: rgba(10, 10, 46, 0.86);
-    color: #0ff;
+    border: 2px solid #0ff;
+    background: rgba(6, 8, 28, 0.9);
+    color: #ffea00;
     font-family: 'Press Start 2P', 'Courier New', monospace;
     font-size: 10px;
     touch-action: none;
+    box-shadow: 0 0 10px rgba(0, 255, 255, 0.15);
 }
+
 
 .orbit-dpad {
     width: 138px;
