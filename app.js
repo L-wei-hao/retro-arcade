@@ -213,11 +213,22 @@
         // Reset timing
         gameStartTime = Date.now();
 
-        // Immediately relaunch games that expose an explicit restart/start method.
+        // Games with explicit restart/start helpers should resume immediately.
         if (typeof currentGame.startRun === 'function') {
             currentGame.startRun();
         } else if (typeof currentGame.start === 'function') {
             currentGame.start();
+        } else {
+            // Games like Breakout, Pong, Tetris, and Space Invaders only start
+            // after an Enter press. Make Play Again behave like that input.
+            const instantRestartGames = new Set(['breakout', 'pong', 'tetris', 'spaceinvaders']);
+            if (instantRestartGames.has(currentGameName)) {
+                currentGame.gameStarted = true;
+                currentGame.gameOver = false;
+                currentGame.paused = false;
+                retroSounds.init();
+                retroSounds.playStart();
+            }
         }
         
         if (currentGame.stopTimer) {
